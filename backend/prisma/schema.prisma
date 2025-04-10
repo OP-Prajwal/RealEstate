@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id                  Int       @id @default(autoincrement())
+  name                String
+  email               String    @unique
+  phone               String
+  budget              Float?
+  preferred_location  String?
+  interest            String?
+  inquiries           Inquiry[]
+  contracts           Contract[]
+  password            String
+  @@map("clients")
+}
+
+
+
+model Agent {
+  id            Int       @id @default(autoincrement())
+  name          String
+  email         String    @unique
+  phone         String
+  experience    Int?
+  total_sales   Float?
+  properties    Property[]
+  contracts     Contract[]
+  password String
+  @@map("agents")
+}
+
+model Inquiry {
+  id          Int      @id @default(autoincrement())
+  status      String
+  client      Client   @relation(fields: [clientId], references: [id])
+  clientId    Int
+  property    Property @relation(fields: [propertyId], references: [id])
+  propertyId  Int
+  
+  @@map("inquiries")
+}
+
+model Contract {
+  id            Int       @id @default(autoincrement())
+  contract_date DateTime
+  contract_value Float
+  status        String
+  property      Property  @relation(fields: [propertyId], references: [id])
+  propertyId    Int
+  client        Client    @relation(fields: [clientId], references: [id])
+  clientId      Int
+  agent         Agent     @relation(fields: [agentId], references: [id])
+  agentId       Int
+  
+  @@map("contracts")
+}
+
+model Property {
+  id          Int      @id @default(autoincrement())
+  title       String
+  location    String
+  price       Float
+  type        String
+  bedroom     Int
+  bathroom    Int
+  amenities   String?
+  agent       Agent    @relation(fields: [agentId], references: [id])
+  agentId     Int
+  inquiries   Inquiry[]
+  contracts   Contract[]
+  
+  @@map("properties")
+}
