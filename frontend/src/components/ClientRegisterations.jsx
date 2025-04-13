@@ -14,7 +14,7 @@ const ClientRegisterations = () => {
     }
 
     try {
-      const response = await axios.get('http://localhost:3000/api/client/intrests', {
+      const response = await axios.get('http://localhost:3000/api/auth/client/allinterest', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -52,52 +52,65 @@ const ClientRegisterations = () => {
 
     return (
       <div className="p-4">
-        <h1 className="text-3xl font-bold text-center mb-6">Registered Properties</h1>
-        <div className="space-y-4">
+        <h1 className="text-3xl font-bold text-center mb-6 items-center">Registered Properties</h1>
+        <div className="space-y-4 items-center flex  flex-col">
           {interests.length > 0 ? (
             interests.map((interest, index) => (
               <div
-                key={index}
-                className="bg-white shadow-lg rounded-lg p-6 border mt-2 border-gray-200"
-              >
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <h2 className="text-xl font-semibold mb-2">
-                      Property: {interest.property?.title || 'N/A'}
-                    </h2>
-                    <p className="text-gray-600">
-                      Agent: {interest.agent?.name || 'N/A'}
-                    </p>
-                    <p className="text-gray-600">
-                      Location: {interest.property?.location || 'N/A'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">
-                      Price: ${interest.property?.price || 'N/A'}
-                    </p>
-                    <p className="text-gray-600">
-                      Bedrooms: {interest.property?.bedroom || 'N/A'}
-                    </p>
-                    <p className="text-gray-600">
-                      Bathrooms: {interest.property?.bathroom || 'N/A'}
-                    </p>
-                  </div>
+              key={index}
+              className="bg-white shadow-md hover:shadow-lg rounded-lg p-6 w-[80%] text-2xl border mt-4 border-gray-200 transition-all duration-300 transform hover:scale-102"
+            >
+              <div className="grid grid-cols-1 gap-4 text-2xl">
+                <div>
+                  <h2 className="text-2xl font-semibold mb-2 text-gray-800">
+                    Property: {interest.title || 'N/A'}
+                  </h2>
+                  <p className="text-xl text-gray-600">
+                    <span className="font-medium">Agent:</span> {interest.name || 'N/A'}
+                  </p>
+                  <p className="text-xl text-gray-600">
+                    <span className="font-medium">Location:</span> {interest.location || 'N/A'}
+                  </p>
                 </div>
-                <div className='flex justify-center mt-4'>
-                  <div className='bg-white rounded-lg p-4 w-1/2'>
-                    <h3 className='text-lg font-semibold mb-3 text-gray-700 text-center'>Property Status</h3>
-                    <div className={`px-4 py-2 rounded-full font-medium text-center  ${
-                      interest.status === 'pending' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' :
-                      interest.status === 'accepted' ? 'bg-green-50 text-green-700 border border-green-200' :
-                      interest.status === 'rejected' ? 'bg-red-50 text-red-700 border border-red-200' :
-                      'bg-gray-50 text-gray-700 border border-gray-200'
-                    }`}>
-                      {interest.status ? interest.status.charAt(0).toUpperCase() + interest.status.slice(1).toLowerCase() : 'N/A'}
-                    </div>
+                <div>
+                  <p className="text-xl text-gray-600 mb-1">
+                    <span className="font-medium">Price:</span> ${interest.price || 'N/A'}
+                  </p>
+                  <p className="text-xl text-gray-600 mb-1">
+                    <span className="font-medium">Bedrooms:</span> {interest.bedroom || 'N/A'}
+                  </p>
+                  <p className="text-xl text-gray-600">
+                    <span className="font-medium">Bathrooms:</span> {interest.bathroom || 'N/A'}
+                  </p>
+                </div>
+              </div>
+            
+              <div className="flex justify-center mt-4">
+                <div className="bg-white rounded-lg p-3 w-full">
+                  <h3 className="text-xl font-semibold mb-2 text-gray-700 text-center">
+                    Property Status
+                  </h3>
+                  <div
+                    className={`px-4 py-2 rounded-full font-medium text-center text-3xl ${
+                      interest.status === 'pending'
+                        ? 'bg-yellow-50 text-yellow-700 border border-yellow-200'
+                        : interest.status === 'accepted'
+                        ? 'bg-green-50 text-green-700 border border-green-200'
+                        : interest.status === 'rejected'
+                        ? 'bg-red-50 text-red-700 border border-red-200'
+                        : 'bg-gray-50 text-gray-700 border border-gray-200'
+                    }`}
+                  >
+                    {interest.status
+                      ? interest.status.charAt(0).toUpperCase() + interest.status.slice(1).toLowerCase()
+                      : 'N/A'}
                   </div>
                 </div>
               </div>
+            </div>
+            
+            
+
             ))
           ) : (
             <div className="text-center text-gray-500 text-xl">

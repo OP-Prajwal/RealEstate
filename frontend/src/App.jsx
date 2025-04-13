@@ -6,6 +6,9 @@ import AgentSignup from './components/agentSignup'
 import AgentLogin from './components/AgentLogin'
 import Agent from './dashboards/Agent'
 import CLient from './dashboards/CLient'
+import Properties from './components/Properties';
+
+
 const App = () => {
   return (
     <div className=' h-full w-screen'>
@@ -17,6 +20,9 @@ const App = () => {
       <Route path='/agent/dashboard' element={<Agent></Agent>}/>
       <Route path='/client/dashboard' element={<CLient></CLient>}/>
      </Routes>
+    
+      
+  
     </div>
   )
 }
