@@ -35,7 +35,7 @@ const Contracts = () => {
         setContracts((prevContracts) =>
           prevContracts.filter((contract) => contract.contractid !== contractId)
         );
-        // Also close the modal if open
+        
         if (selectedPropertyDetails?.contractid === contractId) {
           setSelectedPropertyDetails(null);
         }
@@ -100,7 +100,7 @@ const Contracts = () => {
        <p><strong>📞Client Phone:</strong> {contract.client_phone}</p>
      </div>
    
-     {/* Show Details Button */}
+    
      <div className="text-center">
        <button
          onClick={() => setSelectedPropertyDetails(contract)}
@@ -110,7 +110,7 @@ const Contracts = () => {
        </button>
      </div>
    
-     {/* Accept / Reject */}
+  
      <div className="flex justify-center gap-6 pt-4">
        {contract.status === 'accepted' ? (
          <button
